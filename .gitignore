@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+*.txt
+
+# Editors and IDEs
+.idea/*
+!.idea/codeStyleSettings.xml
+*.iml
+
+# Misc
+.DS_Store
+.misc
+package-lock.json
+
+#Local environment
+.envs
+.env*
+.idea
