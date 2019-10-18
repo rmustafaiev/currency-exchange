@@ -1,0 +1,9 @@
+POSTGRES_HOST='localhost'
+POSTGRES_USER='postgres'
+POSTGRES_DATABASE='currency_exchange'
+POSTGRES_PASSWORD=null
+POSTGRES_PORT=5432
+
+LOG_LEVEL = 'debug'
+JWT_SECRET = password
+PORT = 3000
