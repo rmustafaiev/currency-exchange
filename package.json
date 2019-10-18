@@ -1,0 +1,33 @@
+{
+  "name": "currency-exchange",
+  "version": "1.0.0",
+  "description": "Currency exchange REST API ",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "node ./migration",
+    "start": "nodemon ./src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rmustafaiev/currency-exchange.git"
+  },
+  "author": "Rustem S. Mustafaiev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rmustafaiev/currency-exchange/issues"
+  },
+  "homepage": "https://github.com/rmustafaiev/currency-exchange#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.17.1",
+    "fast-csv": "^3.4.0",
+    "pg-promise": "^9.3.3"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0",
+    "eslint": "^6.5.1",
+    "nodemon": "^1.19.4"
+  }
+}
