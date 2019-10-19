@@ -1,0 +1,84 @@
+Цели для себя
+ - сделать док спецификацию котороя в наилучшей форме бы показала меня
+ для этого нужно показать свои аналитические способности
+ в самой широкой области
+ цели клиента
+цели моей как я могу помочь имплементировать задачи клиента
+в жопу дуть не нужно нужно четко делать свои задачи
+итак сидя в машине созрела идея
+сделать эту спецификацию наиболее полной от и до
+которая покажет весь цикл который приведет к решению вопроса
+компрехенсив- красивое английское слово
+итак
+сделать док спецификацию по смарту
+имплементировать тех часть только наиболее необходимое и архитекурно правильно
+для возможности быстро вносить изменения
+
+структура такая
+глосарий
+задача как описал клиент
+мои цели
+описание юз кейсов ( в частности ТДД риди)
+имплементация
+
+
+
+
+Following DOC explains bussiness requrements for particular case for
+for the Currency Rate Applications
+
+
+Glossary
+     code - currency abbr like USD\UAH (US dollar | Ukrainian Hryvna) etc..
+     base - currency where all other currencies rates based on BASE = UAH, USD = 25.97 UAH, EUR = 29.78 UAH ...
+     rate - an coeficcient of the base currency to the target currency e.g 1 USD = 24.98 UAH ...
+     exchange rate - the rate of source  currency to the target currency it involves
+     cross course - the coeficient between target and source currencies like 1 USD = 0.9 EUR
+                   involving no base currency rather calculated on information provide by choosen data source
+     data source - is the reference source of the currency rates got from
+                    since we do not provide responsibility of finance markets or goverment .
+
+Goals
+    The app should provide an initial but still sufficient API to work with
+    Currency rate 'terms' like local currency rate among to other world currencies
+    based on the source currency to the target currency. Also it should
+    show cross rates between current or referred currency and target currency.
+    It should provide historical currency rate values by the query specified by consumer.
+    It should facilate
+
+
+Use cases bussinnes requirements
+
+It ask
+ - Get data sources
+    /api/datasource
+    app should return available data sources
+
+    in form (base, name, description)
+        base - data source base currency
+        name - data source abbr ( UDS, NBU ...)
+        description - data source additional info (NBU = Natinal bank of Ukraine)
+
+ - Get currencies /api/currencies
+        /api/currencies
+        app should return all world currencies available
+
+        /api/currencies/:dataSource
+        app should return currencies available per data source
+
+        in form (code, num, name, description)
+            code - currency abbreviation code USD = United States Dollar
+            num -  currency bank code numeric 980 - Ukrainian hrivna
+            name - full currency name descriptive
+            region - region eg. Great Britain
+
+ - Get rates /api/rates
+ - Get historical rates /api/historical
+
+
+       It should return
+            rates by current day
+            rates by date in the query
+            rates by data source
+            rates by different data source /UserDefined|NBU|ECB
+            rates by different base (calculated
