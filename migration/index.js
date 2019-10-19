@@ -25,7 +25,7 @@ async function main() {
 
 
         //console.log(`DB Drop ? ${drop}, Create ? ${create}, Fill ? ${fill}`)
-        console.log('DB  scripts succeded ?')
+        console.log('DB  scripts succeded')
         // success
     } catch (error) {
         console.error('DB Error: ', error.stack)
