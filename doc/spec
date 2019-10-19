@@ -1,58 +1,268 @@
-Following DOC explains bussiness requrements for particular case for
-for the Currency Rate Applications
+Following DOC explains business requirements
+for particular case of bthe Currency Rate Applications
 
-
+////Hint comprehensive all terms used and mentioned
 Glossary
-     code - currency abbr like USD\UAH (US dollar | Ukrainian Hryvna) etc..
-     base - currency where all other currencies rates based on BASE = UAH, USD = 25.97 UAH, EUR = 29.78 UAH ...
-     rate - an coeficcient of the base currency to the target currency e.g 1 USD = 24.98 UAH ...
-     exchange rate - the rate of source  currency to the target currency it involves
-     cross course - the coeficient between target and source currencies like 1 USD = 0.9 EUR
+     Currency - A currency of particular country/region, mostly used in a form of abbreviation like `USD` 'EUR' ...
+     Code - currency abbr like USD\UAH (US dollar | Ukrainian Hryvna) etc..
+     Base - currency where all other currencies rates based on BASE = UAH, USD = 25.97 UAH, EUR = 29.78 UAH ...
+     Rate - an coeficcient of the base currency to the target currency e.g 1 USD = 24.98 UAH ...
+     Currency rate - the rate of source currency to the target currency it involves
+     Cross course - the coeficient between target and source currencies like 1 USD = 0.9 EUR
                    involving no base currency rather calculated on information provide by choosen data source
-     data source - is the reference source of the currency rates got from
-                    since we do not provide responsibility of finance markets or goverment .
+     Data source - is the reference source of the currency rates got from
+                    since we do not provide responsibility of finance markets or goverment
+     CRUD - create read update delete operations
+     API Error - An error thrown if path not found
+     bl error - An error thrown if query doesnt fit business rules eg. validation/date range/datasource etc ...
+     server error - Any error thrown by server
 
+
+//Hint AIMs goals in general
 Goals
     The app should provide an initial but still sufficient API to work with
     Currency rate 'terms' like local currency rate among to other world currencies
     based on the source currency to the target currency. Also it should
     show cross rates between current or referred currency and target currency.
     It should provide historical currency rate values by the query specified by consumer.
-    It should facilate
+    It should allow editing in order consumer can modify currency rates
+    by their own discretion but limited to the consumer data source.
+
+//Hint Application logic and architecture
+Application logic and requirements
+    TODO separate from bussines requirements
+    but still full of Details
+    this tier should provide architectural decisions made and choosen
+
+//Hint implementation details what and why this way
+Implementation
+    What to do and how to do
+    provide how things have been done and why it has been done that way
 
 
-Use cases bussinnes requirements
 
-It ask
- - Get data sources
-    /api/datasource
-    app should return available data sources
-
-    in form (base, name, description)
-        base - data source base currency
-        name - data source abbr ( UDS, NBU ...)
-        description - data source additional info (NBU = Natinal bank of Ukraine)
-
- - Get currencies /api/currencies
-        /api/currencies
-        app should return all world currencies available
-
-        /api/currencies/:dataSource
-        app should return currencies available per data source
-
-        in form (code, num, name, description)
-            code - currency abbreviation code USD = United States Dollar
-            num -  currency bank code numeric 980 - Ukrainian hrivna
-            name - full currency name descriptive
-            region - region eg. Great Britain
-
- - Get rates /api/rates
- - Get historical rates /api/historical
+API Restrictions and rules
+One should not and have no ability to modify rates, provided by external data sources (from the world)
+consumer have ability to CRUD only 'local' data source which is UDS - user defined data source
+By default API queries can omit dataSource parameter and it will be considered as UDS
 
 
-       It should return
-            rates by current day
-            rates by date in the query
-            rates by data source
-            rates by different data source /UserDefined|NBU|ECB
-            rates by different base (calculated
+//Describe per bussiness cases
+Use cases along bussinnes requirements
+
+
+
+Returns JSON response or Error
+HTTP status is in place
+
+
+API provides
+Consumer asks endpoints
+
+* Data Sources
+    path: /api/datasources
+    method: GET
+    desc: Available data sources
+    params: None
+    returns:
+        [{
+            base: 'data source base currency',
+            name: 'data source abbr ( UDS, NBU ...)',
+            description: 'data source additional info (NBU = Natinal bank of Ukraine)'
+        }]
+    error:
+        {
+            status: Status code
+            code: error code
+            message: Error message
+        }
+
+    examples:
+        curl -X GET \
+          http://localhost:8088/api/datasource \
+          -H 'Postman-Token: 603b6ef5-6cc2-419b-ba0e-1ce3fdcc55b3' \
+          -H 'cache-control: no-cache'
+
+* Currencies
+    path: /api/currencies/:datasource
+    method: GET
+    desc:  Returns list of currencies available or per data source if specified
+    params:
+        dataSource - one of available data sources (optional query param)
+    returns:
+        [{
+            code: currency abbreviation code USD = United States Dollar
+            num : currency bank code numeric 980 - Ukrainian hrivna
+            name: full currency name descriptive
+            region: region eg. Great Britain
+        }]
+    error:
+        {
+            status: Status code
+            code: error code
+            message: Error message
+        }
+    examples:
+        curl -X GET \
+          'http://localhost:8088/api/currencies' \
+          -H 'Postman-Token: 16df0b10-3ecb-4adc-b005-a8cde0a2b979' \
+          -H 'cache-control: no-cache'
+
+        curl -X GET \
+          'http://localhost:8088/api/currencies?dataSource=NBU' \
+          -H 'Postman-Token: 16df0b10-3ecb-4adc-b005-a8cde0a2b979' \
+          -H 'cache-control: no-cache'
+
+* Historical
+    path: /api/rates/historical/:datasource/:date
+    path: /api/rates/historical/range/:datasource/:start/:end
+    method: GET
+    desc:  Returns historical rates for specified date and data source,
+    fallback as follows to current date and default data source if not specified.
+    if it is by range (see path params) and if no end date is specified returns from start till current date
+    params:
+        datasource - one of available
+        start - start data of range
+        end - end date of range
+    returns:
+        {
+            base: currency base
+            start: start date of the range (if no date or range start date than current date)
+            end: end date of range (if not range specified than current date for single date)
+            dataSource: data source
+            rates: [
+                {
+                    code: currency_code,
+                    rate: currency rate to the base currency,
+                    date: the date per rate
+                }
+            }
+
+        }]
+    error:
+        {
+            status: Status code
+            code: error code
+            message: Error message
+        }
+
+* Rates TODO bulk operations!
+        path: /api/rates/:datasource
+        method: GET
+        desc: Returns currency rates for the current date.
+        params:
+            datasource - one of available
+        returns:
+            {
+                base: currency base
+                date: always current date
+                dataSource: data source
+                rates: [
+                    {
+                        code: currency_code,
+                        rate: currency rate to the base currency
+                    }
+                ]
+        error:
+            {
+                status: Status code
+                code: error code
+                message: Error message
+            }
+
+
+        Create/Update
+        path: /api/rates/:date
+        method: POST|PUT
+        desc: Creates the currency rate for the date specified or modifies if the entry already exist,
+        if date is omit than current date is considered. Returns a status or an error.
+        params:
+            date - DD/MM/YYYY
+        body:
+        {
+            date: DD/MM/YYYY
+            rates: [
+                    {
+                        code: currency_code,
+                        rate: currency rate
+                    },
+                    ...
+            ]
+        }
+        returns:
+            {
+                status: success
+            }
+        error:
+            {
+                status: Status code
+                code: error code
+                message: Error message
+            }
+
+
+        Delete
+        path: /api/rates/:date
+        method: DELETE
+        desc: Removes the currency rate by the date specified,
+            if date is omit than current date is considered. Returns a status or an error.
+            params:
+                date - DD/MM/YYYY
+            returns:
+                {
+                    status: success
+                }
+            error:
+                {
+                    status: Status code
+                    code: error code
+                    message: Error message
+                }
+* Rates converter
+        path: /api/rates/convert/:datasource/:date/:source
+        method: GET
+        desc: Converts all the currency rates based on source currency
+        It more likely change the base.
+        params:
+            datasource - one of available
+            date - the date as a base conversion reference
+            source - the source currency
+        returns:
+            {
+                base: currency base
+                date: always current date
+                dataSource: data source
+                source: Source currency
+                target: Target currency
+                rate: the rate Source against Target
+            }
+        error:
+            {
+                status: Status code
+                code: error code
+                message: Error message
+            }
+
+        Convert one to another eg USD to UAH
+        path: /api/rates/convert/:datasource/:date/:source/:target
+        method: GET
+        desc: Converts the currency one to another.
+        params:
+            datasource - one of available
+            date - the date based upon conversion should be considered
+            source - the source currency
+        returns:
+            {
+                base: currency base
+                date: always current date
+                dataSource: data source
+                source: Source currency
+                target: Target currency
+                rate: the rate Source against Target
+            }
+        error:
+            {
+                status: Status code
+                code: error code
+                message: Error message
+            }
