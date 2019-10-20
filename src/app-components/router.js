@@ -9,7 +9,11 @@ const { values } = require('../utils/object')
  */
 module.exports = values(routes)
     .filter(router => Object.getPrototypeOf(router) == Router)
-    .reduce((rootRouter, router) => rootRouter.use(router), Router({ mergeParams: true }))
+    .reduce((rootRouter, router) => {
+        if (router) {
+            rootRouter.use(router)
+        }
 
-
+        return rootRouter
+    }, Router({ mergeParams: true }))
 
