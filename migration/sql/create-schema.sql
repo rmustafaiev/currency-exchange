@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS data_sources(
    id SMALLSERIAL NOT NULL,
    base VARCHAR(3) NOT NULL,
    name VARCHAR(3) NOT NULL UNIQUE,
+   is_default BOOLEAN DEFAULT true,
    description VARCHAR (100),
    PRIMARY KEY (name, id)
 );
