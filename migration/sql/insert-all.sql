@@ -1,6 +1,6 @@
 
 INSERT INTO data_sources (base, name, description, is_default)
-VALUES ('USD', 'UDS', 'User defined data source. Exchange base currency=UAH.', true),
+VALUES ('UAH', 'UDS', 'User defined data source. Exchange base currency=UAH.', true),
 	('UAH', 'NBU', 'National Bank Of Ukraine. Exchange base currency=UAH.', false),
 	('EUR', 'ECB', 'Europe Central Bank Bank. Exchange base currency=EUR.', false);
 
@@ -164,6 +164,6 @@ VALUES
 
 
 INSERT INTO data_source_currencies (name, code)
-VALUES ('UDS', 'UAH'), ('UDS', 'EUR'), ('UDS', 'CAD');
+VALUES ('UDS', 'USD'), ('UDS', 'EUR'), ('UDS', 'GBP'), ('UDS', 'PLN');
 
 

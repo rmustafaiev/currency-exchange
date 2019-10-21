@@ -12,7 +12,8 @@ const createSQLFile = file => {
 const sqls = {
     dropSchema   : createSQLFile('sql/drop-schema.sql'),
     createSchema : createSQLFile('sql/create-schema.sql'),
-    fulfillTables: createSQLFile('sql/insert-all.sql')
+    fulfillTables: createSQLFile('sql/insert-all.sql'),
+    fulfillRates: createSQLFile('sql/insert-rates.sql')
 }
 
 
@@ -21,7 +22,8 @@ async function main() {
     try {
         const drop = await database.any(sqls.dropSchema, [ true ])
         const create = await database.any(sqls.createSchema, [ true ])
-        const fill = await database.any(sqls.fulfillTables, [ true ])
+        const fillAll = await database.any(sqls.fulfillTables, [ true ])
+        const fillRates = await database.any(sqls.fulfillRates, [ true ])
 
 
         //console.log(`DB Drop ? ${drop}, Create ? ${create}, Fill ? ${fill}`)
