@@ -1,4 +1,5 @@
 module.exports = function makeCurrenciesDb({ database }) {
+
     return {
         getDataSources,
         getDataSourceCurrencies,

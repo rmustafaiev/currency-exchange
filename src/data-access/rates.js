@@ -30,10 +30,6 @@ module.exports = function makeRatesDb({ database }) {
         const withCurrency = start && end && currency && queries.rateRangeCur(start, end, currency)
         const withDates = start && end && queries.rateRange(start, end)
 
-        console.log(' getRatesByRange >>>>>>>>> ',start , end , currency)
-        console.log(' getRatesByRange <<<<<<  ',withCurrency || withDates)
-
-
         return database.any(withCurrency || withDates)
     }
 
@@ -57,7 +53,7 @@ module.exports = function makeRatesDb({ database }) {
     }
 
     function remove(id) {
-        return database.one('DELETE FROM currency_rates WHERE id=$1', id)
+        return database.result('DELETE FROM currency_rates WHERE id=$1', +id)
     }
 }
 

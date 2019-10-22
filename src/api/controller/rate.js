@@ -39,7 +39,7 @@ async function getRatesByRange(req, res, next) {
         const { currency, limit, offset } = req.query
 
         console.log('!!!!!!!!!!!! getRatesByRange')
-        console.log(start, end,currency, limit, offset )
+        console.log(start, end, currency, limit, offset)
 
         const result = await db.getRatesByRange(start, end, currency, limit, offset)
 
@@ -124,10 +124,10 @@ async function updateRate(req, res, next) {
 async function deleteRate(req, res, next) {
     try {
         const { rateId } = req.params
+        const result = await db.remove(rateId)
+        const { rowCount } = result
 
-        const count = await db.remove(parseInt(rateId))
-
-        res.send(count)
+        res.send({ count: rowCount })
     } catch (err) {
         next(err)
     }
@@ -146,7 +146,7 @@ async function convertRates(req, res, next) {
         const { date, currencyCode } = req.params
         const { amount } = req.query || {}
 
-        const rates  = await db.getRates(date)
+        const rates = await db.getRates(date)
         const newBaseRate = rates.filter(cr => cr.code === currencyCode.toUpperCase()).pop()
         const { exchange_date, rate, code } = newBaseRate
 
