@@ -1,8 +1,9 @@
+## Specification, Terms
 
 ****Following DOC explains business requirements  
-for particular case of the Currency Rate Applications****  
+for particular case of the Currency Rate Application****  
   
-**Glossary**  
+####Glossary 
 
  - Currency - A currency of particular country/region, mostly used in a
    form of abbreviation like `USD` 'EUR' ...
@@ -23,7 +24,7 @@ for particular case of the Currency Rate Applications****
  - server error - Any error thrown by server  
   
   
-**Goals**  
+####Goals 
     The app should provide an initial but still sufficient API to work with  
     Currency rate 'terms' like local currency rate among to other world currencies  
     based on the source currency to the target currency. Also it should  
@@ -33,30 +34,40 @@ for particular case of the Currency Rate Applications****
     by their own discretion but limited to the consumer data source.  
 
 
-**API Restrictions and rules**  
+####API Restrictions and rules 
  - One should not and have no ability to modify rates, provided by external data sources (from the world)
  - consumer have ability to CRUD only 'local' data source which is UDS - user defined data source
  - By default API queries can omit dataSource parameter and it will be considered as UDS  
 
-**Data by default**
+####Data by default
+Provided, by application migration scripts.
 Available, Data 2019-09-01 till 2019-10-20
 except  between '2019-10-07' and '2019-10-15'
 
-API Endpoints
-baseUrl = http://server:port/api
-port 8088 by config 
+####API server
+> baseUrl = http://host:port/api 
+>port 8088 by config 
 
-**Get currency rates:**
-End point:
-http://localhost:8088/api/rates/2019-10-05
-http://localhost:8088/api/rates/2019-10-05?currency='USD'
- - currency optional
-call: 
+####API Endpoints
+****Get currency rates****
+Returns currency rates by date, and currency if specified.
+otherwise returns lista of all available.
+
+> http://localhost:8088/api/rates/2019-10-05
+> http://localhost:8088/api/rates/2019-10-05?currency='USD'
+
+```
 curl -X GET \
   'http://localhost:8088/api/rates/2019-10-05?currency=USD' \
   -H 'Postman-Token: 2145e00f-96c6-454d-a085-0bdb13df9e48' \
   -H 'cache-control: no-cache'
-  
+
+params:
+    date - in format YYYY-MM-DD, eg '2019-10-20'
+
+query params: 
+    currency - one of available currency codes .. 'USD', 'GBP' ...
+
 response:
 {
     "base": "UAH",
@@ -68,9 +79,87 @@ response:
             "code": "USD",
             "rate": "24.877"
         }
-        .....
+        ...
     ]
 }
+```
+
+
+--------------
+****Method****
+
+> http://localhost:8088/api/rates/2019-10-05
+
+```
+curl -X GET 
+
+params:
+
+query params: 
+
+response:
+
+```
+--------------
+****Method****
+
+> http://localhost:8088/api/rates/2019-10-05
+
+```
+curl -X GET 
+
+params:
+
+query params: 
+
+response:
+
+```
+--------------
+****Method****
+
+> http://localhost:8088/api/rates/2019-10-05
+
+```
+curl -X GET 
+
+params:
+
+query params: 
+
+response:
+
+```
+--------------
+****Method****
+
+> http://localhost:8088/api/rates/2019-10-05
+
+```
+curl -X GET 
+
+params:
+
+query params: 
+
+response:
+
+```
+--------------
+****Method****
+
+> http://localhost:8088/api/rates/2019-10-05
+
+```
+curl -X GET 
+
+params:
+
+query params: 
+
+response:
+
+```
   
   
 router.get('/rates/historical/from/:start/to/:end', getRatesByRange)

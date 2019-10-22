@@ -1,8 +1,14 @@
-#Brief 
+##Brief 
+
+Currency rate/converter application, provides
+REST API to interact with currency/rate common operations.
 
 ###Initial task reference
+[Currency Rates/Converter  ](http://a.com)
 
 ###Application spec
+[Currency Rates/Converter  ](http://a.com)
+
 
 Prerequisites:
 >PostgreSQL should be provided if already installed,
