@@ -1,14 +1,13 @@
 Following DOC explains business requirements
-for particular case of bthe Currency Rate Applications
+for particular case of the Currency Rate Applications
 
-////Hint comprehensive all terms used and mentioned
 Glossary
      Currency - A currency of particular country/region, mostly used in a form of abbreviation like `USD` 'EUR' ...
      Code - currency abbr like USD\UAH (US dollar | Ukrainian Hryvna) etc..
      Base - currency where all other currencies rates based on BASE = UAH, USD = 25.97 UAH, EUR = 29.78 UAH ...
-     Rate - an coeficcient of the base currency to the target currency e.g 1 USD = 24.98 UAH ...
+     Rate - an coefficient of the base currency to the target currency e.g 1 USD = 24.98 UAH ...
      Currency rate - the rate of source currency to the target currency it involves
-     Cross course - the coeficient between target and source currencies like 1 USD = 0.9 EUR
+     Cross course - the coefficient between target and source currencies like 1 USD = 0.9 EUR
                    involving no base currency rather calculated on information provide by choosen data source
      Data source - is the reference source of the currency rates got from
                     since we do not provide responsibility of finance markets or goverment
@@ -18,7 +17,6 @@ Glossary
      server error - Any error thrown by server
 
 
-//Hint AIMs goals in general
 Goals
     The app should provide an initial but still sufficient API to work with
     Currency rate 'terms' like local currency rate among to other world currencies
@@ -30,7 +28,7 @@ Goals
 
 //Hint Application logic and architecture
 Application logic and requirements
-    TODO separate from bussines requirements
+    TODO separate from busines requirements
     but still full of Details
     this tier should provide architectural decisions made and choosen
 
@@ -39,12 +37,10 @@ Implementation
     What to do and how to do
     provide how things have been done and why it has been done that way
 
-
-
 API Restrictions and rules
-One should not and have no ability to modify rates, provided by external data sources (from the world)
-consumer have ability to CRUD only 'local' data source which is UDS - user defined data source
-By default API queries can omit dataSource parameter and it will be considered as UDS
+    One should not and have no ability to modify rates, provided by external data sources (from the world)
+    consumer have ability to CRUD only 'local' data source which is UDS - user defined data source
+    By default API queries can omit dataSource parameter and it will be considered as UDS
 
 
 //Describe per bussiness cases
@@ -60,7 +56,7 @@ API provides
 Consumer asks endpoints
 
 * Data Sources
-    path: /api/datasources
+    path: /api/currencies/datasources
     method: GET
     desc: Available data sources
     params: None
@@ -113,7 +109,7 @@ Consumer asks endpoints
           -H 'Postman-Token: 16df0b10-3ecb-4adc-b005-a8cde0a2b979' \
           -H 'cache-control: no-cache'
 
-* Historical
+* Historical rates
     path: /api/rates/historical/:datasource/:date
     path: /api/rates/historical/range/:datasource/:start/:end
     method: GET
@@ -146,10 +142,10 @@ Consumer asks endpoints
             message: Error message
         }
 
-* Rates TODO bulk operations!
+* Rates
         path: /api/rates/:datasource
         method: GET
-        desc: Returns currency rates for the current date.
+        desc: Returns the latest currency rates.
         params:
             datasource - one of available
         returns:

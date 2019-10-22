@@ -1,9 +1,7 @@
 const { Router } = require('express')
-
+const { getDataSourceCurrencies } = require('../controller/currency')
 const router = Router({ mergeParams: true })
 
-router.get('/currencies', (req, res, next)=>{
-    res.send('I should return curencies list')
-})
+router.get('/currencies', getDataSourceCurrencies)
 
 module.exports = router

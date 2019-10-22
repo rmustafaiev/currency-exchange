@@ -8,7 +8,7 @@ const { values } = require('../utils/object')
  * @returns {Router}
  */
 module.exports = values(routes)
-    .filter(router => Object.getPrototypeOf(router) == Router)
+    .filter(router => Object.getPrototypeOf(router) === Router)
     .reduce((rootRouter, router) => {
         if (router) {
             rootRouter.use(router)

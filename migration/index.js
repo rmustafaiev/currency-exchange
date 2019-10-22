@@ -1,8 +1,8 @@
-require('dotenv').config()
-
 const database = require('../src/app-components/db')
+const logger = require('../src/app-components/logger')
 const QueryFile = require('pg-promise').QueryFile
 const path = require('path')
+
 
 const createSQLFile = file => {
     const fullPath = path.join(__dirname, file)
@@ -13,24 +13,22 @@ const sqls = {
     dropSchema   : createSQLFile('sql/drop-schema.sql'),
     createSchema : createSQLFile('sql/create-schema.sql'),
     fulfillTables: createSQLFile('sql/insert-all.sql'),
-    fulfillRates: createSQLFile('sql/insert-rates.sql')
+    fulfillRates : createSQLFile('sql/insert-rates.sql')
 }
 
 
 async function main() {
-    console.log('Migration scripts: ')
+    logger.info('Migrations scripts started:')
+
     try {
-        const drop = await database.any(sqls.dropSchema, [ true ])
-        const create = await database.any(sqls.createSchema, [ true ])
-        const fillAll = await database.any(sqls.fulfillTables, [ true ])
-        const fillRates = await database.any(sqls.fulfillRates, [ true ])
+        await database.none(sqls.dropSchema, [ true ])
+        await database.none(sqls.createSchema, [ true ])
+        await database.none(sqls.fulfillTables, [ true ])
+        await database.none(sqls.fulfillRates, [ true ])
 
-
-        //console.log(`DB Drop ? ${drop}, Create ? ${create}, Fill ? ${fill}`)
-        console.log('DB  scripts succeded')
-        // success
+        logger.info('Migrations scripts completed:')
     } catch (error) {
-        console.error('DB Error: ', error.stack)
+        logger.error('Migrations scripts failed: ', error)
     }
 
 }
