@@ -7,13 +7,13 @@ The library exposes all its query formatting methods to the client via namespace
 const pgp = require('pg-promise');
 const s = pgp.as.format("SELECT * FROM table WHERE field1 = $1", 123);
 console.log(s);
- */
+*/
 
 const queries = {
-    rateByDate        : date => `SELECT * FROM currency_rates WHERE exchange_date = '${date}'`,
+    rateByDate         : date => `SELECT * FROM currency_rates WHERE exchange_date = '${date}'`,
     rateByDtAndCurrency: (date, code) => `SELECT * FROM currency_rates WHERE exchange_date = '${date}' and code='${code}'`,
-    rateRange         : (start, end) => `SELECT * FROM currency_rates WHERE exchange_date >= ${start} AND exchange_date <= ${end} ORDER BY exchange_date`,
-    rateRangeCur      : (start, end, cur) => `SELECT * FROM currency_rates WHERE code = '${cur}' exchange_date >= '${start}' AND exchange_date <= '${end}' ORDER BY exchange_date`
+    rateRange          : (start, end) => `SELECT * FROM currency_rates WHERE exchange_date >= '${start}' AND exchange_date <= '${end}' ORDER BY exchange_date DESC`,
+    rateRangeCur       : (start, end, cur) => `SELECT * FROM currency_rates WHERE code = '${cur}' AND exchange_date >= '${start}' AND exchange_date <= '${end}' ORDER BY exchange_date DESC`
 }
 
 
@@ -28,7 +28,11 @@ module.exports = function makeRatesDb({ database }) {
 
     function getRatesByRange(start, end, currency, limit, offset) {
         const withCurrency = start && end && currency && queries.rateRangeCur(start, end, currency)
-        const withDates = start && end
+        const withDates = start && end && queries.rateRange(start, end)
+
+        console.log(' getRatesByRange >>>>>>>>> ',start , end , currency)
+        console.log(' getRatesByRange <<<<<<  ',withCurrency || withDates)
+
 
         return database.any(withCurrency || withDates)
     }

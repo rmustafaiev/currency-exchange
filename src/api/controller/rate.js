@@ -38,10 +38,15 @@ async function getRatesByRange(req, res, next) {
         const { start, end } = req.params
         const { currency, limit, offset } = req.query
 
+        console.log('!!!!!!!!!!!! getRatesByRange')
+        console.log(start, end,currency, limit, offset )
+
         const result = await db.getRatesByRange(start, end, currency, limit, offset)
+
 
         res.send(result)
     } catch (err) {
+        console.log(err)
         next(err)
     }
 }
@@ -56,7 +61,7 @@ async function getRatesByRange(req, res, next) {
 async function getRates(req, res, next) {
     try {
         const { date } = req.params
-        const { currency  } = req.query
+        const { currency } = req.query
         const rates = await db.getRates(date, currency)
         const { exchange_date, ds_name } = rates.length && rates[0]
         const omitProps = obj => omit(obj, [ 'ds_name', 'exchange_date', 'modified' ])
@@ -128,8 +133,6 @@ async function deleteRate(req, res, next) {
     }
 }
 
-//router.get('/rates/convert/:date/:currencyCode', convertRates)
-//router.get('/rates/convert/:date/:sourceCode/:targetCode', convertRate)
 /**
  * Converts current currency rates actually the base
  * changed by parameter specified
@@ -141,9 +144,9 @@ async function deleteRate(req, res, next) {
 async function convertRates(req, res, next) {
     try {
         const { date, currencyCode } = req.params
-        const { amount = 1 } = req.query || {}
+        const { amount } = req.query || {}
 
-        const rates = await db.getHistorical(date)
+        const rates  = await db.getRates(date)
         const newBaseRate = rates.filter(cr => cr.code === currencyCode.toUpperCase()).pop()
         const { exchange_date, rate, code } = newBaseRate
 
@@ -176,7 +179,7 @@ async function convertRate(req, res, next) {
         const { date, sourceCode, targetCode } = req.params
         const { amount = 1 } = req.query || {}
 
-        const rates = await db.getHistorical(date)
+        const rates = await db.getRates(date)
         const baseRate = rates.filter(cr => cr.code === sourceCode.toUpperCase()).pop()
         const targetRate = rates.filter(cr => cr.code === targetCode.toUpperCase()).pop()
 

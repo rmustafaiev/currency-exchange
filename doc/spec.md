@@ -51,10 +51,7 @@ except  between '2019-10-07' and '2019-10-15'
 ####API Endpoints
 ****Get currency rates****
 Returns currency rates by date, and currency if specified.
-otherwise returns lista of all available.
-
-> http://localhost:8088/api/rates/2019-10-05
-> http://localhost:8088/api/rates/2019-10-05?currency='USD'
+otherwise returns list a of all available.
 
 ```
 curl -X GET \
@@ -86,12 +83,18 @@ response:
 
 
 --------------
-****Method****
-
-> http://localhost:8088/api/rates/2019-10-05
+****Get histarical/range currency rates****
+Returns currency rates in a range based on starting date and end date.
+Optional filters Are:
+currency code = USD - will return only rates per currency
+limit - number of records to show
+offset - shift from the beginning of over count ...
 
 ```
-curl -X GET 
+curl -X GET \
+  'http://localhost:8088/api/rates/historical/from/2019-10-01/to/2019-10-20?currency=USD' \
+  -H 'Postman-Token: 1ced9171-3b08-4b1f-8fa6-b2a870afd99d' \
+  -H 'cache-control: no-cache'
 
 params:
 
@@ -101,33 +104,66 @@ response:
 
 ```
 --------------
-****Method****
-
-> http://localhost:8088/api/rates/2019-10-05
+****Convert currency rates****
+Converts all the available currencies to the 
+new base currecny as per Requested
+E.g we have Base currency in UAH
+If we set param to be USD, all the currency rates will
+be recalculated
 
 ```
-curl -X GET 
-
+curl -X GET \
+  'http://localhost:8088/api/rates/convert/2019-10-20/USD?amount=100' \
+  -H 'Postman-Token: ae94ea5e-a761-4bb0-a366-c78382aeb12e' \
+  -H 'cache-control: no-cache'
 params:
-
+    date - in format YYYY-MM-DD, eg '2019-10-20'
 query params: 
-
+    amount - it will add amount of converted rate
+    eg. 100 GBP = 127 USD ...
 response:
-
+{
+    "base": "USD",
+    "exchangeDate": "2019-10-19T21:00:00.000Z",
+    "rates": [
+        {
+            "descr": "100 GBP = 127.96959650683269 USD",
+            "rate": 0.781435612283584,
+            "amount": 78.14356122835841,
+            "code": "GBP"
+        },
+        ...
+    ]
+}
 ```
 --------------
-****Method****
+****Convert currency rate****
+Converts one currency to another, aka cross course
+E.g EUR/to/USD 
 
 > http://localhost:8088/api/rates/2019-10-05
 
 ```
-curl -X GET 
+curl -X GET \
+  'http://localhost:8088/api/rates/convert/2019-10-02/EUR/to/USD?amount=100' \
+  -H 'Postman-Token: 7f364ddb-0f5a-464b-a35c-d86bb47f03d6' \
+  -H 'cache-control: no-cache'
 
 params:
-
+    date - in format YYYY-MM-DD, eg '2019-10-20'
 query params: 
+    amount - it will add amount of converted rate
+    eg. 100 GBP = 127 USD ...
 
 response:
+{
+    "exchangeDate": "2019-10-01T21:00:00.000Z",
+    "base": "EUR",
+    "descr": "100 USD = 91.76008968609864 EUR",
+    "rate": 1.0897984117287722,
+    "amount": 108.97984117287723,
+    "code": "USD"
+}
 
 ```
 --------------

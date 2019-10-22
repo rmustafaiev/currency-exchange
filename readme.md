@@ -4,10 +4,10 @@ Currency rate/converter application, provides
 REST API to interact with currency/rate common operations.
 
 ###Initial task reference
-[Currency Rates/Converter  ](http://a.com)
+[Currency Rates/Converter  ](https://github.com/rmustafaiev/currency-exchange/blob/master/task.md)
 
 ###Application spec
-[Currency Rates/Converter  ](http://a.com)
+[Application spec  ](https://github.com/rmustafaiev/currency-exchange/blob/master/doc/spec.md)
 
 
 Prerequisites:
@@ -30,3 +30,4 @@ Prerequisites:
 
 **RM**`docker run  -it --rm postgresdb psql -U postgres -q`
 
+**NodeJS**
