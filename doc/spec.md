@@ -291,7 +291,7 @@ by id
 ```
 curl -X DELETE \
   http://localhost:8088/api/rates/223 \
-  -H 'Postman-Token: b0bb61bf-4736-4994-b924-76f2b6c5d7cc' \
+  -H 'Postman-Token: 172cf745-1720-44b0-8fe3-3d1fd1042f4c' \
   -H 'cache-control: no-cache'
 
 method: DEELETE
