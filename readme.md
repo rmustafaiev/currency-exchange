@@ -1,9 +1,26 @@
+#Brief 
 
-RUN DOCKER
+###Initial task reference
 
-docker logs -f postgresdb 
-docker exec -it postgres-db  psql -U postgres
+###Application spec
 
-docker run  -it --rm postgresdb psql -U postgres
+Prerequisites:
+>PostgreSQL should be provided if already installed,
+ otherwise it run in docker
+ 
 
-docker exec -it postgresdb psql -U postgres -c "CREATE DATABASE currency_exchange" -q
+**DOCKER**
+**Compose**
+>`docker-compose up -d`
+
+**Check**
+>`docker logs -f postgresdb` 
+
+**Check Db**
+>`docker exec -it postgres-db  psql -U postgres -q`
+
+**Create Db**
+>`docker exec -it postgresdb psql -U postgres -c "CREATE DATABASE currency_exchange" -q`
+
+**RM**`docker run  -it --rm postgresdb psql -U postgres -q`
+

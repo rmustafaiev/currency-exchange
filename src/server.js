@@ -9,5 +9,3 @@ const port = process.env.PORT
 app.listen(port, function() {
     logger.info(`Application listening on port ${port}`)
 })
-
-

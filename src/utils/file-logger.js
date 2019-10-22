@@ -47,6 +47,7 @@ const logWithOptions = ({ logLevel, showTime, showSeverity } = defaultOptions) =
     const level = showSeverity && `[${label(callLevel)}]` || ''
     const message = ''.concat(ts, ' ', level, ' ', ...rest, '\n')
 
+    console.log(message)
     fs.appendFile(file, message, () => {
     })
 }

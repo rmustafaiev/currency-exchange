@@ -4,10 +4,12 @@
   "description": "Currency exchange REST API ",
   "main": "index.js",
   "scripts": {
-    "postinstall": "node ./migration",
+    "postinstall.prerequsitie": "node ./migration",
     "dev": "nodemon ./src/server.js",
     "start": "node ./src/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "migration": "node ./migration",
+    "lint": "eslint ./ --fix"
   },
   "repository": {
     "type": "git",
@@ -27,6 +29,7 @@
     "pg-promise": "^9.3.3"
   },
   "devDependencies": {
+    "axios": "^0.19.0",
     "dotenv": "^8.2.0",
     "eslint": "^6.5.1",
     "nodemon": "^1.19.4"

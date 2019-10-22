@@ -38,7 +38,7 @@ async function getRatesByRange(req, res, next) {
         const { start, end } = req.params
         const { currency, limit, offset } = req.query
 
-        const result = await db.getHistoricalForPeriod(start, end, currency, limit, offset)
+        const result = await db.getRatesByRange(start, end, currency, limit, offset)
 
         res.send(result)
     } catch (err) {
@@ -55,9 +55,20 @@ async function getRatesByRange(req, res, next) {
  */
 async function getRates(req, res, next) {
     try {
-        const all = await db.getLatest()
+        const { date } = req.params
+        const { currency  } = req.query
+        const rates = await db.getRates(date, currency)
+        const { exchange_date, ds_name } = rates.length && rates[0]
+        const omitProps = obj => omit(obj, [ 'ds_name', 'exchange_date', 'modified' ])
 
-        res.send(all)
+        const result = {
+            base        : BASE,
+            dataSource  : ds_name,
+            ecxhangeDate: exchange_date,
+            rates       : rates.map(omitProps)
+        }
+
+        res.send(result)
     } catch (err) {
         next(err)
     }
@@ -130,7 +141,7 @@ async function deleteRate(req, res, next) {
 async function convertRates(req, res, next) {
     try {
         const { date, currencyCode } = req.params
-        const { amount = 1 } = req.query
+        const { amount = 1 } = req.query || {}
 
         const rates = await db.getHistorical(date)
         const newBaseRate = rates.filter(cr => cr.code === currencyCode.toUpperCase()).pop()
@@ -163,7 +174,7 @@ async function convertRates(req, res, next) {
 async function convertRate(req, res, next) {
     try {
         const { date, sourceCode, targetCode } = req.params
-        const { amount = 1 } = req.query
+        const { amount = 1 } = req.query || {}
 
         const rates = await db.getHistorical(date)
         const baseRate = rates.filter(cr => cr.code === sourceCode.toUpperCase()).pop()

@@ -9,10 +9,16 @@ const s = pgp.as.format("SELECT * FROM table WHERE field1 = $1", 123);
 console.log(s);
  */
 
+const queries = {
+    rateByDate        : date => `SELECT * FROM currency_rates WHERE exchange_date = '${date}'`,
+    rateByDtAndCurrency: (date, code) => `SELECT * FROM currency_rates WHERE exchange_date = '${date}' and code='${code}'`,
+    rateRange         : (start, end) => `SELECT * FROM currency_rates WHERE exchange_date >= ${start} AND exchange_date <= ${end} ORDER BY exchange_date`,
+    rateRangeCur      : (start, end, cur) => `SELECT * FROM currency_rates WHERE code = '${cur}' exchange_date >= '${start}' AND exchange_date <= '${end}' ORDER BY exchange_date`
+}
+
 
 module.exports = function makeRatesDb({ database }) {
     return {
-        getHistorical,
         getRatesByRange,
         getRates,
         insert,
@@ -20,20 +26,18 @@ module.exports = function makeRatesDb({ database }) {
         remove
     }
 
-    function getHistorical(date) {
-        return database.any('SELECT * FROM currency_rates WHERE exchange_date = $1', [ date ])
-    }
+    function getRatesByRange(start, end, currency, limit, offset) {
+        const withCurrency = start && end && currency && queries.rateRangeCur(start, end, currency)
+        const withDates = start && end
 
-    function getRatesByRange(start, end, size, offset) {
-        //return database.any('SELECT * FROM currency_rates BETWEEN $1 AND $2', [start, end])
-        return database.any('SELECT * FROM currency_rates WHERE exchange_date >= $1 AND exchange_date <= $2'
-            , [ start, end ])
+        return database.any(withCurrency || withDates)
     }
 
     function getRates(date, currency) {
-        const today = formatYYYYMMDD(new Date().getTime())
+        const withCurrency = date && currency && queries.rateByDtAndCurrency(date, currency)
+        const byDate = date && queries.rateByDate(date)
 
-        return database.any('SELECT * FROM currency_rates WHERE exchange_date = $1', today)
+        return database.any(withCurrency || byDate)
     }
 
     function insert({ code, ds_name, rate, exchange_date }) {
