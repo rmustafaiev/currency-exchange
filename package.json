@@ -4,11 +4,10 @@
   "description": "Currency exchange REST API ",
   "main": "index.js",
   "scripts": {
-    "postinstall.prerequsitie": "node ./migration",
     "dev": "nodemon ./src/server.js",
     "start": "node ./src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "migration": "node ./migration",
+    "migration": "node ./migration/index.js",
     "lint": "eslint ./ --fix"
   },
   "repository": {

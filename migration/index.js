@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const database = require('../src/app-components/db')
 const logger = require('../src/app-components/logger')
 const QueryFile = require('pg-promise').QueryFile
@@ -26,11 +28,12 @@ async function main() {
         await database.none(sqls.fulfillTables, [ true ])
         await database.none(sqls.fulfillRates, [ true ])
 
-        logger.info('Migrations scripts completed:')
+
     } catch (error) {
         logger.error('Migrations scripts failed: ', error)
     }
 
+    logger.info('Migrations scripts completed:')
 }
 
 main().then().catch(console.error)

@@ -9,6 +9,7 @@ REST API to interact with currency/rate common operations.
 ###Application spec
 [Application spec  ](https://github.com/rmustafaiev/currency-exchange/blob/master/doc/spec.md)
 
+###Install notes
 
 Prerequisites:
 >PostgreSQL should be provided if already installed,
@@ -30,4 +31,29 @@ Prerequisites:
 
 **RM**`docker run  -it --rm postgresdb psql -U postgres -q`
 
+**Migrate Db**
+Please head to `projetc/migration`
+Run / sh migration.sh
+This will create initial Db
+
 **NodeJS**
+
+Following steps describe installation procedure.
+Please head to your project dir.'
+
+Clone the project 
+>https://github.com/rmustafaiev/currency-exchange.git
+>
+Run 
+>npm i
+
+Please make file `.env` file in the root directory
+and follow `envexample` file to full fill config options.
+
+**DB migration.**
+
+Db migration scripts detached due initial Db setup steps
+So after Db has been in touch, please follow next steps,
+Run migration scripts
+> npm run migration
+

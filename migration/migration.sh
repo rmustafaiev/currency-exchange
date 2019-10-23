@@ -11,13 +11,13 @@
 #docker exec -it postgresdb psql -U postgres -c "SELECT NOW()" -q
 
 #drop currency_exchange database
-#docker exec -it postgresdb psql -U postgres -c "DROP DATABASE IF EXISTS currency_exchange" -q
+docker exec -it postgresdb psql -U postgres -c "DROP DATABASE IF EXISTS currency_exchange" -q
 
 #create currency_exchange database
-#docker exec -it postgresdb psql -U postgres -c "CREATE DATABASE currency_exchange" -q
+docker exec -it postgresdb psql -U postgres -c "CREATE DATABASE currency_exchange" -q
 
 #connect currency_exchange
-docker exec -it postgresdb psql -U postgres -d currency_exchange
+#docker exec -it postgresdb psql -U postgres -d currency_exchange
 
 #import schema
 #docker exec -it postgresdb psql -U postgres -d currency_exchange -f "create-schema.sql"

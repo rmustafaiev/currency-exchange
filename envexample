@@ -1,9 +1,10 @@
-POSTGRES_HOST='localhost'
+POSTGRES_HOST='127.0.0.1
 POSTGRES_USER='postgres'
 POSTGRES_DATABASE='currency_exchange'
 POSTGRES_PASSWORD=null
 POSTGRES_PORT=5432
 
-LOG_LEVEL = 'debug'
-JWT_SECRET = password
-PORT = 3000
+API_ROOT = api
+LOG_LEVEL = 'info'
+JWT_SECRET = s6cret'
+PORT = 8088
