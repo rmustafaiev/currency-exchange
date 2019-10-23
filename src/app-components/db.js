@@ -7,5 +7,4 @@ const pgp = require('pg-promise')()
  * It based on node-postgres module anyway though.
  * @type {{dbPool: *, dbClient: (function(): (void | * | ClientHttp2Session | this | Socket | TLSSocket | AudioNode))}}
  */
-console.log("Db init ....", options)
 module.exports = pgp({ ...options })

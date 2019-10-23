@@ -5,10 +5,13 @@ REST API to interact with currency/rate common operations.
 
 ###Initial task reference
 [Currency Rates/Converter  ](https://github.com/rmustafaiev/currency-exchange/blob/master/task.md)
+`/doc/spec/task.md`
 
 ###Application spec
 [Application spec  ](https://github.com/rmustafaiev/currency-exchange/blob/master/doc/spec.md)
-
+`/doc/spec/spec.md`
+###[Dev Notes] (https://github.com/rmustafaiev/currency-exchange/blob/master/doc/dev-notes)
+`/doc/dev-notes`
 ###Install notes
 
 Prerequisites:
@@ -57,3 +60,8 @@ So after Db has been in touch, please follow next steps,
 Run migration scripts
 > npm run migration
 
+**Run Dev server**
+> npm run dev
+
+**Logs**
+> /logs/application.log
